@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: concourse-postgres
+spec:
+  serviceName: "concourse-postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: concourse-postgres
+  template:
+    metadata:
+      labels:
+        app: concourse-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: concourse
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: concourse-postgres-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: concourse-postgres-secret
+                  key: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: concourse-postgres
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: concourse-postgres
+  type: ClusterIP

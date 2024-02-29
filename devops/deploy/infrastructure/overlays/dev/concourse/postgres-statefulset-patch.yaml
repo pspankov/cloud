@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: concourse-postgres
+spec:
+  template:
+    spec:
+      containers:
+        - name: postgres
+          # You might want to use a specific production-ready postgres image tag
+          image: postgres:13
+          # Production environment would securityContext, persistent storage, resource requests and limits, etc.

@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: concourse-worker
+spec:
+  template:
+    spec:
+      containers:
+        - name: concourse-worker
+          # Apply production-specific settings here, such as resources, image tags, etc

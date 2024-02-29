@@ -1,0 +1,22 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: cloud-template-dev-cluster
+spec:
+  hosts:
+    - ssh:
+        address: 192.168.31.58
+        user: root
+        port: 22
+        keyPath: /home/pavel/.ssh/id_rsa
+      role: controller+worker
+      noTaints: true
+    # - ssh:
+    #     address: 192.168.31.58
+    #     user: root
+    #     port: 22
+    #     keyPath: /home/pavel/.ssh/id_rsa
+    # role: worker
+  k0s:
+    version: 1.28.4+k0s.0
+    dynamicConfig: false

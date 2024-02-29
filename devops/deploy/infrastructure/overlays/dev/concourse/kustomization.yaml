@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../base/concourse
+patches:
+  - path: concourse-web-deployment-patch.yaml
+  - path: concourse-worker-deployment-patch.yaml
+  - path: postgres-statefulset-patch.yaml

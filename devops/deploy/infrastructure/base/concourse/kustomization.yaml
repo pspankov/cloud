@@ -1,0 +1,7 @@
+namespace: concourse
+resources:
+  - namespace.yaml
+  - concourse-web-deployment.yaml
+  - concourse-worker-deployment.yaml
+  - postgres-secret.yaml
+  - postgres-statefulset.yaml
